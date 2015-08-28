@@ -17,6 +17,8 @@
 		00B9955A1B128DF400A5C623 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995581B128DF400A5C623 /* IOKit.framework */; };
 		00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995591B128DF400A5C623 /* IOSurface.framework */; };
 		44E07CDA1B9107790098514E /* Body.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44E07CD81B9107790098514E /* Body.cpp */; };
+		44E07CDC1B911EF90098514E /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 44E07CDB1B911EF90098514E /* assets */; };
+		44E07CDF1B911F0E0098514E /* Joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44E07CDD1B911F0E0098514E /* Joint.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		84701C1DBE0E4D998CF7254A /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = DA108D493BBF4CA7878FB6B5 /* CinderApp.icns */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -40,6 +42,9 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		44E07CD81B9107790098514E /* Body.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Body.cpp; path = ../src/Body.cpp; sourceTree = "<group>"; };
 		44E07CD91B9107790098514E /* Body.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Body.h; path = ../src/Body.h; sourceTree = "<group>"; };
+		44E07CDB1B911EF90098514E /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
+		44E07CDD1B911F0E0098514E /* Joint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Joint.cpp; path = ../src/Joint.cpp; sourceTree = "<group>"; };
+		44E07CDE1B911F0E0098514E /* Joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Joint.h; path = ../src/Joint.h; sourceTree = "<group>"; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* CCL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CCL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99905092A58848388AD798BC /* CCLApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = CCLApp.cpp; path = ../src/CCLApp.cpp; sourceTree = "<group>"; };
@@ -81,7 +86,7 @@
 			children = (
 				99905092A58848388AD798BC /* CCLApp.cpp */,
 				44E07CD81B9107790098514E /* Body.cpp */,
-				44E07CD91B9107790098514E /* Body.h */,
+				44E07CDD1B911F0E0098514E /* Joint.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -124,6 +129,7 @@
 		29B97314FDCFA39411CA2CEA /* CCL */ = {
 			isa = PBXGroup;
 			children = (
+				44E07CDB1B911EF90098514E /* assets */,
 				01B97315FEAEA392516A2CEA /* Blocks */,
 				29B97315FDCFA39411CA2CEA /* Headers */,
 				080E96DDFE201D6D7F000001 /* Source */,
@@ -137,6 +143,8 @@
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				44E07CDE1B911F0E0098514E /* Joint.h */,
+				44E07CD91B9107790098514E /* Body.h */,
 				C3081BDFB54445D2AE79D61D /* Resources.h */,
 				1DFFDF0BC600469AA0C379C6 /* CCL_Prefix.pch */,
 			);
@@ -214,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84701C1DBE0E4D998CF7254A /* CinderApp.icns in Resources */,
+				44E07CDC1B911EF90098514E /* assets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E60F38FFDF84DAA9E719DEC /* CCLApp.cpp in Sources */,
+				44E07CDF1B911F0E0098514E /* Joint.cpp in Sources */,
 				44E07CDA1B9107790098514E /* Body.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

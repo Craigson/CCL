@@ -17,11 +17,9 @@ class CCLApp : public App {
 	void update() override;
 	void draw() override;
     
-    //METHOD FOR SETTING UP THE 3D ENVIRONMENT
-    void setupEnviron( int xSize, int zSize, int spacing );
-    
-    //METHOD FOR RENDERING THE 3D ENVIRONMENT
-    void renderScene();
+    void setupEnviron( int xSize, int zSize, int spacing );     //METHOD FOR SETTING UP THE 3D ENVIRONMENT
+    void renderScene();                                         //METHOD FOR RENDERING THE 3D ENVIRONMENT
+    void importData();                                          //METHOD FOR IMPORTING JSON DATA
     
     //CREATE A BATCH VERTEX FOR THE FLOOR MESH
     gl::VertBatchRef	mGridMesh;
@@ -46,6 +44,7 @@ void CCLApp::setup()
     
     //SETUP THE CAMERA
     mCamera.lookAt( vec3( 100, 100, 10 ), vec3( 0 ) );
+    
     //mCamera.setEyePoint(vec3(0,200,650));
     mCamUi = CameraUi( &mCamera, getWindow() );
     
@@ -54,7 +53,7 @@ void CCLApp::setup()
     
     mGlsl = gl::GlslProg::create( loadAsset( "shader.vert" ), loadAsset( "shader.frag" ) );
     
-    mSphereBatch = gl::Batch::create( geom::Sphere(), mGlsl );
+//    mSphereBatch = gl::Batch::create( geom::Sphere(), solidShader );
     
     gl::enableDepthWrite();
     gl::enableDepthRead();
@@ -74,7 +73,7 @@ void CCLApp::update()
   //  std::cout << mCamera.getEyePoint() << std::endl;
 }
 
-//--------------------- DRAW ------------------------------------
+//--------------------------- DRAW -----------------------------
 
 void CCLApp::draw()
 {
@@ -133,12 +132,21 @@ void CCLApp::renderScene()
     gl::setMatrices( mCamera );
     mGridMesh->draw();
     
-    gl::color( 1, 0, 0 );
-    gl::ScopedModelMatrix modelScope;
-    mSphereBatch->draw();
+//    gl::color( 1, 0, 0 );
+//    gl::ScopedModelMatrix modelScope;
+//    mSphereBatch->draw();
     gl::popMatrices();
 
 }
+
+//-------------------- IMPORT DATA -------------------------
+
+void importData()
+{
+    
+}
+
+//-------------------------------------------------------------
 
 CINDER_APP( CCLApp, RendererGl, [&]( App::Settings *settings ) {
     settings->setWindowSize( 1280, 720 );

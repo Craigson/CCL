@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>B64B660C-F85A-4313-B037-9E78B575F824</string>
+	<key>IDESourceControlProjectName</key>
+	<string>CCL</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>5570C0FDD803E9CE0DA9791D29C4D3269025286A</key>
+		<string>https://github.com/Craigson/CCL.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>xcode/CCL.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>5570C0FDD803E9CE0DA9791D29C4D3269025286A</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Craigson/CCL.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>5570C0FDD803E9CE0DA9791D29C4D3269025286A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5570C0FDD803E9CE0DA9791D29C4D3269025286A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CCL</string>
+		</dict>
+	</array>
+</dict>
+</plist>
