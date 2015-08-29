@@ -17,12 +17,13 @@ public:
     void loadPositions();
     
     string UUID[3];
-
     
-private:
     vector<float> xPositions;
     vector<float> yPositions;
     vector<float> zPositions;
+    
+private:
+    
     
     bool xUpdated;
     bool yUpdated;

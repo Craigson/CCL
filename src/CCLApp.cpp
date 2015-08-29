@@ -94,7 +94,7 @@ void CCLApp::setup()
     
     std::cout << "total frames: " << TOTAL_FRAMES << std::endl;
     
-    gl::VboMeshRef body = gl::VboMesh::create( geom::Sphere().subdivisions( 21 ).radius(5) );
+    gl::VboMeshRef body = gl::VboMesh::create( geom::Sphere().subdivisions( 16 ).radius(2) );
     
     //CREATE A CONTAINER TO STORE THE INITIAL POSITIONS FOR INITIALISING THE JOINTS
     std::vector<glm::vec3> positions;
@@ -258,7 +258,8 @@ void CCLApp::renderScene()
 void CCLApp::initData()
 {
     //CREATE AND INITIALISE A CCL_MOCAPDATA OBJECT, PASSING IN THE GLOBAL "jointList" AS A REFERENCE
-     CCL_MocapData(1, jointList);
+     CCL_MocapData("CLL_JOINT.json",jointList);
+ //    CCL_MocapData(1, jointList);
      std::cout << jointList.size()<< endl;
      std::cout << endl;
      std::cout << endl;

@@ -421,4 +421,5 @@ dependencies: \
   ../../../Cinder/include/boost/intrusive/detail/list_node.hpp \
   ../../../Cinder/include/boost/intrusive/circular_list_algorithms.hpp \
   ../../../Cinder/include/boost/intrusive/detail/list_iterator.hpp \
-  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCL/src/CCL_MocapJoint.h
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCL/src/CCL_MocapJoint.h \
+  /Users/Craig/Documents/cinder_glNext090/gl_Next090\ projects/CCL/src/Jzon.h
