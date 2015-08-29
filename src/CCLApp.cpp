@@ -61,6 +61,9 @@ class CCLApp : public App {
 
 void CCLApp::setup()
 {
+    
+    setFrameRate(12);
+    
     //SETUP THE 3D ENVIRONMENT
     setupEnviron( 2000, 2000, 100 );
     
@@ -91,7 +94,7 @@ void CCLApp::setup()
     
     std::cout << "total frames: " << TOTAL_FRAMES << std::endl;
     
-    gl::VboMeshRef body = gl::VboMesh::create( geom::Sphere().subdivisions( 4 ).radius(10) );
+    gl::VboMeshRef body = gl::VboMesh::create( geom::Sphere().subdivisions( 21 ).radius(5) );
     
     //CREATE A CONTAINER TO STORE THE INITIAL POSITIONS FOR INITIALISING THE JOINTS
     std::vector<glm::vec3> positions;
@@ -100,8 +103,8 @@ void CCLApp::setup()
     for ( int i = 0; i < jointList.size(); ++i ) {
         float instanceX = jointList[i].jointPositions[0].x;
         float instanceY = jointList[i].jointPositions[0].y;
-       // float instanceZ = jointList[i].jointPositions[0].z;
-        float instanceZ = 0;
+        float instanceZ = jointList[i].jointPositions[0].z;
+       // float instanceZ = 0;
 
         positions.push_back( vec3( instanceX, instanceY, instanceZ));
     }
@@ -154,8 +157,8 @@ void CCLApp::update()
 
         float instanceX = jointList[i].jointPositions[FRAME_COUNT].x;
         float instanceY = jointList[i].jointPositions[FRAME_COUNT].y;
-        //float instanceZ = jointList[i].jointPositions[FRAME_COUNT].z;
-        float instanceZ = 0;
+        float instanceZ = jointList[i].jointPositions[FRAME_COUNT].z;
+        //float instanceZ = 0;
             // just some nonsense math to move the teapots in a wave
             vec3 newPos(vec3(instanceX,instanceY, instanceZ));
         
