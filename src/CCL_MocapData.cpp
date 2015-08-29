@@ -40,24 +40,36 @@ CCL_MocapData::CCL_MocapData(const string &url, int skip = 1, std::vector<CCL_Mo
 
 };
 */
-CCL_MocapData::CCL_MocapData(int skip, std::vector<CCL_MocapJoint>& mJoints){
+CCL_MocapData::CCL_MocapData(int skip, std::vector<CCL_MocapJoint>& mJoints)
+{
     try{
         const JsonTree json( loadUrl(URL_STREAM_JSON) ); //LOAD JSON FILE CONTAINING UUIDs
         
         //CHECK EACH UUID AND SORT INTO JOINTS
         
         //LOOP THROUGH STREAMS
+        
+        int counter = 0;
         for( auto &stream : json.getChildren() ){
+        
+        //for( int i =0; i < 3; i++){
             
             const string &uuid = stream["uuid"].getValue();
             string title = stream["title"].getValue();
             if( stream.hasChild("group")){
                 string group = stream["group"].getValue();
                 //      std::cout << "group:"<< group << " title:" << title << " uuid[" << i << "] = " << uuid << std::endl;
-                addUUIDtoJoint(group, title, uuid, skip, mJoints);
+                if (counter < 9){
+                    
+                    addUUIDtoJoint(group, title, uuid, skip, mJoints);
+                    counter++;
+                }
+                
             }
+        
         }
     }
+
     catch( ci::Exception &exc ) {
         std::cout << "Failed to parse json, what: " << exc.what() << std::endl;
     }
