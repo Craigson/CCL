@@ -68,6 +68,12 @@ void CCLApp::setup()
     
     initData();
     
+    for (int i = 0; i < 1; i++){
+        for (int j = 0; j < jointList[i].jointPositions.size(); j++){
+            std::cout << j << ": " << jointList[i].jointPositions[j] << std::endl;
+        }
+    }
+    
 }
 
 //--------------------- MOUSEDOWN ------------------------------
