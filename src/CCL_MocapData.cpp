@@ -59,11 +59,11 @@ CCL_MocapData::CCL_MocapData(int skip, std::vector<CCL_MocapJoint>& mJoints)
             if( stream.hasChild("group")){
                 string group = stream["group"].getValue();
                 //      std::cout << "group:"<< group << " title:" << title << " uuid[" << i << "] = " << uuid << std::endl;
-                if (counter < 9){
+                //if (counter < 9){
                     
                     addUUIDtoJoint(group, title, uuid, skip, mJoints);
                     counter++;
-                }
+                //}
                 
             }
         

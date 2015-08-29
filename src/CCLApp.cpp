@@ -47,8 +47,6 @@ class CCLApp : public App {
     
     int numJoints;
     
-    gl::VboMeshRef body = gl::VboMesh::create( geom::Sphere().subdivisions( 32 ).radius(10) );
-    
     // create an array of initial per-instance positions laid out in a 2D grid
     std::vector<glm::vec3> jointPositions;
     
@@ -78,19 +76,22 @@ void CCLApp::setup()
     
     initData(); //IMPORT THE JSON DATA AND SORT IT INTO A LIST
     
-    /* THIS JUST PRINTS OUT THE POSITIONS OF THE FIRST JOINT TO CHECK THAT IT'S LOADED CORRECTLY */
+    
+    /* THIS JUST PRINTS OUT THE POSITIONS OF THE FIRST JOINT TO CHECK THAT IT'S LOADED CORRECTLY
     for (int i = 0; i < 1; i++){
         for (int j = 0; j < jointList[i].jointPositions.size(); j++){
             std::cout << j << ": " << jointList[i].jointPositions[j] << std::endl;
         }
     }
-    
+    */
     
     
     FRAME_COUNT = 0;
     TOTAL_FRAMES = jointList[0].jointPositions.size(); //SHOULD PROBABLY PUT A TRY/CATCH HERE
     
     std::cout << "total frames: " << TOTAL_FRAMES << std::endl;
+    
+    gl::VboMeshRef body = gl::VboMesh::create( geom::Sphere().subdivisions( 4 ).radius(10) );
     
     //CREATE A CONTAINER TO STORE THE INITIAL POSITIONS FOR INITIALISING THE JOINTS
     std::vector<glm::vec3> positions;
@@ -104,7 +105,11 @@ void CCLApp::setup()
 
         positions.push_back( vec3( instanceX, instanceY, instanceZ));
     }
-                            
+    
+    //std::cout << "positions: " << positions[0] << std::endl;
+    
+    
+    
     // create the VBO which will contain per-instance (rather than per-vertex) data
     mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec3), positions.data(), GL_DYNAMIC_DRAW );
     
@@ -142,6 +147,7 @@ void CCLApp::update()
     //MAP INSTANCE DATA TO VBO
     //WRITE NEW POSITIONS
     //UNMAP
+    
     vec3 *positions = (vec3*)mInstanceDataVbo->mapReplace();
     
     for( int i = 0; i < jointList.size(); ++i ) {
@@ -153,12 +159,14 @@ void CCLApp::update()
             // just some nonsense math to move the teapots in a wave
             vec3 newPos(vec3(instanceX,instanceY, instanceZ));
         
+        //*positions++ = newPos;
         positions[i] = newPos;
     }
     
-    std::cout << "position: " << positions[0] << std::endl;
+    
 
     mInstanceDataVbo->unmap();
+    std::cout << "position: " << positions[0] << std::endl;
 
     //MANUALLY INCREMENT THE FRAME, IF THE FRAME_COUNT EXCEEDS TOTAL FRAMES, RESET THE COUNTER
     if (FRAME_COUNT < TOTAL_FRAMES)
@@ -185,6 +193,7 @@ void CCLApp::draw()
     gl::color( 1, 0, 0 );
     //gl::ScopedModelMatrix modelScope;
     //mSphereBatch->drawInstanced( sizeOfBody );
+    
     mSphereBatch->drawInstanced( jointList.size() );
 
 
