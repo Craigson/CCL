@@ -20,6 +20,11 @@ Joint::Joint(const std::list<glm::vec3>& jsonData, const ci::gl::GlslProgRef& mS
 
     mPositions = jsonData; //STORE THE X,Y,Z POSITION VALUES IN A LIST
     mSphereBatch = gl::Batch::create( geom::Sphere(), mShader );  //CREATE A BATCH FOR THE SPHERE
+    jointName = "";
+    
+    //SIFT THROUGH THE POSITION DATA AND EXTRACT THE JOINT NAME AND X,Y,Z COMPONENTS
+    float tempX, tempY, tempZ;
+    
     
 }
 

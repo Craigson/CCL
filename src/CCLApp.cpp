@@ -2,6 +2,9 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "cinder/CameraUi.h"
+#include "cinder/Json.h"
+
+#include "CCL_MocapData.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -19,7 +22,7 @@ class CCLApp : public App {
     
     void setupEnviron( int xSize, int zSize, int spacing );     //METHOD FOR SETTING UP THE 3D ENVIRONMENT
     void renderScene();                                         //METHOD FOR RENDERING THE 3D ENVIRONMENT
-    void importData();                                          //METHOD FOR IMPORTING JSON DATA
+    void initData();                                           //METHOD FOR IMPORTING JSON DATA
     
     //CREATE A BATCH VERTEX FOR THE FLOOR MESH
     gl::VertBatchRef	mGridMesh;
@@ -30,6 +33,11 @@ class CCLApp : public App {
     
     CameraPersp			mCamera;
     CameraUi			mCamUi;
+    
+    std::vector<CCL_MocapJoint> jointList;
+    
+private:
+   
     
    
     
@@ -57,6 +65,9 @@ void CCLApp::setup()
     
     gl::enableDepthWrite();
     gl::enableDepthRead();
+    
+    initData();
+    
 }
 
 //--------------------- MOUSEDOWN ------------------------------
@@ -141,8 +152,16 @@ void CCLApp::renderScene()
 
 //-------------------- IMPORT DATA -------------------------
 
-void importData()
+void CCLApp::initData()
 {
+     CCL_MocapData jsonData  = CCL_MocapData(1, jointList);
+    
+    
+    std::cout << jointList.size()<< endl;
+     std::cout << endl;
+     std::cout << endl;
+     std::cout << endl;
+    
     
 }
 

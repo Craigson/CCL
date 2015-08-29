@@ -22,6 +22,8 @@ class Joint {
     
     ci::gl::BatchRef        mSphereBatch;
     
+    std::string jointName;
+    
     void render();
     void update();
     

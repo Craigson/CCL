@@ -9,10 +9,15 @@
 #pragma once
 
 #include <stdio.h>
+#include "Joint.h"
 
 class Body {
     
-    std::vector<glm::vec3> joints;
+    std::vector<Joint> joints;
     
+    Body();
+    
+    void render();
+    void update();
     
 };
