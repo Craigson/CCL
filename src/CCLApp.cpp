@@ -29,12 +29,13 @@ class CCLApp : public App {
     
     //TEST SPHERE
     gl::BatchRef        mSphereBatch;
+    
     gl::GlslProgRef		mGlsl;
     
     CameraPersp			mCamera;
     CameraUi			mCamUi;
     
-    std::vector<CCL_MocapJoint> jointList;
+    std::vector<CCL_MocapJoint> jointList;  //GLOBAL CONTAINER TO HOLD THE JOINT POSITIONS
     
 private:
    
@@ -57,22 +58,28 @@ void CCLApp::setup()
     mCamUi = CameraUi( &mCamera, getWindow() );
     
     
-    gl::GlslProgRef solidShader = gl::getStockShader( gl::ShaderDef().color() );
+        // SHADER TEST CODE ------------------
+        
+        gl::GlslProgRef solidShader = gl::getStockShader( gl::ShaderDef().color() );
+        
+        mGlsl = gl::GlslProg::create( loadAsset( "shader.vert" ), loadAsset( "shader.frag" ) );
+        
+        mSphereBatch = gl::Batch::create( geom::Sphere(), solidShader );
+        
+        gl::enableDepthWrite();
+        gl::enableDepthRead();
+        
+        // -----------------------------------------
     
-    mGlsl = gl::GlslProg::create( loadAsset( "shader.vert" ), loadAsset( "shader.frag" ) );
-    
-//    mSphereBatch = gl::Batch::create( geom::Sphere(), solidShader );
-    
-    gl::enableDepthWrite();
-    gl::enableDepthRead();
-    
-    initData();
+   /*
+    initData(); //IMPORT THE JSON DATA AND SORT IT INTO A LIST
     
     for (int i = 0; i < 1; i++){
         for (int j = 0; j < jointList[i].jointPositions.size(); j++){
             std::cout << j << ": " << jointList[i].jointPositions[j] << std::endl;
         }
     }
+    */
     
 }
 
@@ -107,7 +114,7 @@ void CCLApp::mouseDrag( MouseEvent event )
     mCamUi.mouseDrag( event );
 }
 
-//------------------- SETUP THE ENVIRONMENT -----------------------
+//------------------- SETUP THE ENVIRONMENT / GRID -----------------------
 
 void CCLApp::setupEnviron( int xSize, int zSize, int spacing )
 {
@@ -149,9 +156,9 @@ void CCLApp::renderScene()
     gl::setMatrices( mCamera );
     mGridMesh->draw();
     
-//    gl::color( 1, 0, 0 );
-//    gl::ScopedModelMatrix modelScope;
-//    mSphereBatch->draw();
+    gl::color( 1, 0, 0 );
+    gl::ScopedModelMatrix modelScope;
+    mSphereBatch->draw();
     gl::popMatrices();
 
 }
@@ -160,10 +167,10 @@ void CCLApp::renderScene()
 
 void CCLApp::initData()
 {
-     CCL_MocapData jsonData  = CCL_MocapData(1, jointList);
+  
+    CCL_MocapData jsonData  = CCL_MocapData(1, jointList);
     
-    
-    std::cout << jointList.size()<< endl;
+     std::cout << jointList.size()<< endl;
      std::cout << endl;
      std::cout << endl;
      std::cout << endl;

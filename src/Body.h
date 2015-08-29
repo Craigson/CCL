@@ -9,13 +9,11 @@
 #pragma once
 
 #include <stdio.h>
-#include "Joint.h"
+#include "CCL_MocapJoint.h"
 
 class Body {
     
-    std::vector<Joint> joints;
-    
-    Body();
+    Body(const std::vector<CCL_MocapJoint>& jointList);
     
     void render();
     void update();
