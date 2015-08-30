@@ -39,7 +39,6 @@
 		00B995591B128DF400A5C623 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1DB0121CA7004A4EBA1B6959 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1DFFDF0BC600469AA0C379C6 /* CCL_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = CCL_Prefix.pch; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		440792A21B92439400B602AC /* Jzon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Jzon.cpp; path = ../src/Jzon.cpp; sourceTree = "<group>"; };
@@ -50,6 +49,7 @@
 		440792A81B9243B500B602AC /* CCL_MocapJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCL_MocapJoint.h; path = ../src/CCL_MocapJoint.h; sourceTree = "<group>"; };
 		440792AB1B9251AE00B602AC /* Skeleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Skeleton.cpp; path = ../src/Skeleton.cpp; sourceTree = "<group>"; };
 		440792AC1B9251AE00B602AC /* Skeleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Skeleton.h; path = ../src/Skeleton.h; sourceTree = "<group>"; };
+		443564501B93A9FD005F94AD /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		44E07CDB1B911EF90098514E /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* CCL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CCL.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +137,7 @@
 		29B97314FDCFA39411CA2CEA /* CCL */ = {
 			isa = PBXGroup;
 			children = (
+				443564501B93A9FD005F94AD /* PrefixHeader.pch */,
 				44E07CDB1B911EF90098514E /* assets */,
 				01B97315FEAEA392516A2CEA /* Blocks */,
 				29B97315FDCFA39411CA2CEA /* Headers */,
@@ -156,7 +157,6 @@
 				440792A81B9243B500B602AC /* CCL_MocapJoint.h */,
 				440792A31B92439400B602AC /* Jzon.h */,
 				C3081BDFB54445D2AE79D61D /* Resources.h */,
-				1DFFDF0BC600469AA0C379C6 /* CCL_Prefix.pch */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -257,6 +257,7 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CINDER_PATH = ../../../Code/cinder/master;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
@@ -283,6 +284,7 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CINDER_PATH = ../../../Code/cinder/master;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -312,7 +314,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CINDER_PATH = ../../../Cinder;
+				CINDER_PATH = /Users/Craig/Documents/cinder_glNext090/Cinder;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				ENABLE_TESTABILITY = YES;
@@ -330,7 +332,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CINDER_PATH = ../../../Cinder;
+				CINDER_PATH = /Users/Craig/Documents/cinder_glNext090/Cinder;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
