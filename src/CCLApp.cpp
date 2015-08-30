@@ -11,6 +11,17 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
+/*----------------------- NOTES FOR IMPROVEMENTS ---------------------------
+ 
+ CHANGE ALL vectors TO lists TO IMPROVE EFFICIENCY (AS NO RANDOM INDEX ACCESS IS
+ REQUIRED - USE ITERS.
+ 
+ 
+ 
+ 
+ 
+ --------------------------------------------------------------------------*/
+
 //GLOBAL VARIABLES
 //const float DRAW_SCALE = 200;       //SCALE FOR DRAWING THE POINTS
 int FRAME_COUNT;
@@ -28,10 +39,12 @@ class CCLApp : public App {
     
     void setupEnviron( int xSize, int zSize, int spacing );     //METHOD FOR SETTING UP THE 3D ENVIRONMENT
     void renderScene();                                         //METHOD FOR RENDERING THE 3D ENVIRONMENT
-    void initData();                                           //METHOD FOR IMPORTING JSON DATA
+    void initData();                                            //METHOD FOR IMPORTING JSON DATA
     void setupShader();
     
-    //CREATE A BATCH VERTEX FOR THE FLOOR MESH
+    std::vector<vec3> distortLimbs(const std::vector<vec3>& normalLimbs, float scaleFactor);
+    
+    //CREATE A VERTEX BATCH FOR THE FLOOR MESH
     gl::VertBatchRef	mGridMesh;
     
     CameraPersp			mCamera;
@@ -56,9 +69,13 @@ class CCLApp : public App {
     
     
     typedef vector<glm::vec3>::size_type bodySize;
- //   bodySize sizeOfBody = jointPositions.size();
+    // bodySize sizeOfBody = jointPositions.size();
     
     Skeleton skeleton;
+    
+    std::vector<glm::vec3> distortedJoints;
+    
+    bool limbsDistorted;
     
 };
 
@@ -71,12 +88,12 @@ void CCLApp::setup()
     setFrameRate(12);
     
     //SETUP THE 3D ENVIRONMENT
-    setupEnviron( 2000, 2000, 50 );
+    setupEnviron( 5000, 5000, 100 );
     
     //SETUP THE CAMERA
     mCamera.lookAt( vec3( 100, 100, 10 ), vec3( 0 ) );
     
-    mCamera.setFarClip(10000);
+    mCamera.setFarClip(20000);
     
     //mCamera.setEyePoint(vec3(0,200,650));
     mCamUi = CameraUi( &mCamera, getWindow() );
@@ -85,6 +102,7 @@ void CCLApp::setup()
     
     initData(); //IMPORT THE JSON DATA AND SORT IT INTO A LIST
     
+    limbsDistorted = true;
     
     /* THIS JUST PRINTS OUT THE POSITIONS OF THE FIRST JOINT TO CHECK THAT IT'S LOADED CORRECTLY
     for (int i = 0; i < 1; i++){
@@ -172,20 +190,26 @@ void CCLApp::update()
         float instanceX = jointList[i].jointPositions[FRAME_COUNT].x;
         float instanceY = jointList[i].jointPositions[FRAME_COUNT].y;
         float instanceZ = jointList[i].jointPositions[FRAME_COUNT].z;
-        //float instanceZ = 0;
-            // just some nonsense math to move the teapots in a wave
-            vec3 newPos(vec3(instanceX,instanceY, instanceZ));
+
+        vec3 newPos(vec3(instanceX,instanceY, instanceZ)); //CREATE A NEW VEC3 FOR UPDATING THE VBO
         
-        
-        if (i == 44){
-            std::cout << newPos << endl;
-        }
         framePositions[i] = newPos;
-        *newPositions++ = newPos;
+        
+        //distortedJoints.push_back(newPos);
         
     }
     
-    skeleton.update(framePositions);
+    //REPLACE VEC3s IN VBO BY INCREMENTING THE POINTER
+    for (int i = 0; i < framePositions.size(); i++){
+        *newPositions++ = framePositions[i];
+    }
+    
+    //CHECK WHETHER THE LIMBS ARE DISTORED
+    if (limbsDistorted){
+    skeleton.update(distortLimbs(framePositions,5));
+    } else {
+        skeleton.update(framePositions);
+    }
     
 
     mInstanceDataVbo->unmap();
@@ -272,10 +296,9 @@ void CCLApp::setupEnviron( int xSize, int zSize, int spacing )
 void CCLApp::renderScene()
 {
     
-   // gl::pushMatrices();
+    gl::pushMatrices();
     mGridMesh->draw();
- 
-  //  gl::popMatrices();
+    gl::popMatrices();
 }
 
 //-------------------- IMPORT DATA -------------------------
@@ -301,6 +324,28 @@ void CCLApp::setupShader(){
     solidShader = gl::getStockShader( gl::ShaderDef().color() );
     mGlsl = gl::GlslProg::create( loadAsset( "shader.vert" ), loadAsset( "shader.frag" ) );
     mSphereBatch = gl::Batch::create( geom::Sphere(), solidShader );
+}
+
+//----------------------- DISTORT LIMBS -----------------------
+std::vector<glm::vec3> CCLApp::distortLimbs(const std::vector<vec3>& normalLimbs, float scaleFactor){
+    
+    //[8] r_elbow
+    //[9] r_upper_wrist
+    //[10] r_lower_wrist
+    //[12]r_thumb
+    //[13]r_pinky
+    
+    std::vector<vec3> distortedVectors = normalLimbs;
+    
+    glm::vec3 forearmDirection =  normalLimbs[8] - normalLimbs[9];
+    float forearmLength = distance(normalLimbs[9],normalLimbs[8]);
+    glm::vec3 newArm = normalize(forearmDirection);
+    glm::vec3 newWrist = normalLimbs[8] + newArm;
+    
+    distortedVectors[8] = newWrist*2.0f;
+    
+    return distortedVectors;
+    
 }
 
 //-------------------------------------------------------------

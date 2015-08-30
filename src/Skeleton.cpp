@@ -49,7 +49,7 @@ void Skeleton::render()
         ci::gl::lineWidth(5);
         
         //NECK
-        ci::gl::drawLine(head,spine_top);
+        //ci::gl::drawLine(head,spine_top);
         
         //TORSO
         ci::gl::drawLine(r_shoulder, l_shoulder);
@@ -88,10 +88,10 @@ void Skeleton::update(const std::vector<glm::vec3>& pos){
     l_hand = boneJoints[17];
     spine_base = boneJoints[27];
     spine_top = boneJoints[21];
-    r_hip = boneJoints[30];
+    r_hip = boneJoints[28];
     r_knee = boneJoints[34];
     r_foot = boneJoints[35];
-    l_hip = boneJoints[31];
+    l_hip = boneJoints[29];
     l_knee = boneJoints[43];
     l_foot = boneJoints[44];
     
