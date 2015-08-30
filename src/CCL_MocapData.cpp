@@ -7,6 +7,7 @@
 //
 
 #include "CCL_MocapData.h"
+#include "cinder/app/App.h"
 
 using namespace ci;
 using namespace std;
@@ -14,8 +15,8 @@ using namespace std;
 
 CCL_MocapData::CCL_MocapData(string filename, vector<CCL_MocapJoint>& mJoints){
     Jzon::Object rootNode;
-    Jzon::FileReader::ReadFile("CCL_JOINT.json", rootNode);
-    
+    Jzon::FileReader::ReadFile(ci::app::getAssetPath("CCL_JOINT.json").string(), rootNode);
+
     const Jzon::Array &joints = rootNode.Get("joints").AsArray();
     for( Jzon::Array::const_iterator it = joints.begin() ; it != joints.end();++it){
         Jzon::Object joint = (*it).AsObject();
