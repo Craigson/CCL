@@ -5,6 +5,7 @@
 #include "cinder/Json.h"
 
 #include "CCL_MocapData.h"
+#include "Skeleton.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -50,9 +51,14 @@ class CCLApp : public App {
     // create an array of initial per-instance positions laid out in a 2D grid
     std::vector<glm::vec3> jointPositions;
     
+    //CREATE A CONTAINER TO STORE THE INITIAL POSITIONS FOR INITIALISING THE JOINTS
+    std::vector<glm::vec3> positions;
+    
     
     typedef vector<glm::vec3>::size_type bodySize;
     bodySize sizeOfBody = jointPositions.size();
+    
+    Skeleton skeleton;
     
 };
 
@@ -65,7 +71,7 @@ void CCLApp::setup()
     setFrameRate(12);
     
     //SETUP THE 3D ENVIRONMENT
-    setupEnviron( 2000, 2000, 100 );
+    setupEnviron( 2000, 2000, 50 );
     
     //SETUP THE CAMERA
     mCamera.lookAt( vec3( 100, 100, 10 ), vec3( 0 ) );
@@ -96,8 +102,6 @@ void CCLApp::setup()
     
     gl::VboMeshRef body = gl::VboMesh::create( geom::Sphere().subdivisions( 16 ).radius(2) );
     
-    //CREATE A CONTAINER TO STORE THE INITIAL POSITIONS FOR INITIALISING THE JOINTS
-    std::vector<glm::vec3> positions;
     
     // CREATE THE SPHERES AT THE INITIAL JOINT LOCATIONS
     for ( int i = 0; i < jointList.size(); ++i ) {
@@ -108,6 +112,8 @@ void CCLApp::setup()
 
         positions.push_back( vec3( instanceX, instanceY, instanceZ));
     }
+    
+    skeleton = Skeleton(positions);
     
     //std::cout << "positions: " << positions[0] << std::endl;
     
@@ -130,6 +136,14 @@ void CCLApp::setup()
     gl::enableDepthWrite();
     gl::enableDepthRead();
     
+    //PRINT OUT JOINT INDEX AND NAME OF JOINT
+    
+    for (int i = 0; i < jointList.size(); i++)
+    {
+        std::cout << "index: " << i << ", Joint name: " << jointList[i].jointName << std::endl;
+    }
+    
+    
     
 }
 
@@ -151,7 +165,8 @@ void CCLApp::update()
     //WRITE NEW POSITIONS
     //UNMAP
     
-    vec3 *positions = (vec3*)mInstanceDataVbo->mapReplace();
+    glm::vec3 *newPositions = (glm::vec3*)mInstanceDataVbo->mapReplace();
+    glm::vec3 *skeletonPositions = (glm::vec3*)skeleton.
     
     for( int i = 0; i < jointList.size(); ++i ) {
 
@@ -162,15 +177,18 @@ void CCLApp::update()
             // just some nonsense math to move the teapots in a wave
             vec3 newPos(vec3(instanceX,instanceY, instanceZ));
         
-        //*positions++ = newPos;
+        *newPositions++ = newPos;
         positions[i] = newPos;
     }
     
     
+    
 
     mInstanceDataVbo->unmap();
-    std::cout << "position: " << positions[0] << std::endl;
+   // std::cout << "position: " << positions[0] << std::endl;
 
+    skeleton.update(positions);
+    
     //MANUALLY INCREMENT THE FRAME, IF THE FRAME_COUNT EXCEEDS TOTAL FRAMES, RESET THE COUNTER
     if (FRAME_COUNT < TOTAL_FRAMES)
     {
@@ -187,7 +205,7 @@ void CCLApp::update()
 void CCLApp::draw()
 {
     
-    gl::clear(Color(0.5f,0.5f,0.5f) );
+    gl::clear(Color(0.f,0.f,0.f) );
     
     gl::setMatrices( mCamera );
     
@@ -198,6 +216,9 @@ void CCLApp::draw()
     //mSphereBatch->drawInstanced( sizeOfBody );
     
     mSphereBatch->drawInstanced( jointList.size() );
+    
+    gl::color( 1, 0, 0 );
+    skeleton.render();
 
 
 }
@@ -221,8 +242,8 @@ void CCLApp::setupEnviron( int xSize, int zSize, int spacing )
     
     const int xMax = xSize + spacing;
     const int zMax = zSize + spacing;
-    const Colorf defaultColor( 0.2f, 0.2f, 0.2f);
-    const Colorf black( 0, 0, 0 );
+    const ColorA defaultColor( 0.9f, 0.9f, 0.9f,0.3f);
+    const ColorA black( 0, 0, 0, 1 );
     
     mGridMesh = gl::VertBatch::create( GL_LINES );
     
@@ -259,7 +280,7 @@ void CCLApp::initData()
 {
     //CREATE AND INITIALISE A CCL_MOCAPDATA OBJECT, PASSING IN THE GLOBAL "jointList" AS A REFERENCE
      CCL_MocapData("CLL_JOINT.json",jointList);
- //    CCL_MocapData(1, jointList);
+ //    CCL_MocapData(1, jointList); //UNCOMMENT THIS LINE TO CAPTURE NEW JSON DATA
      std::cout << jointList.size()<< endl;
      std::cout << endl;
      std::cout << endl;
