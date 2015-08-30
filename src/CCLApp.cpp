@@ -12,7 +12,7 @@ using namespace ci::app;
 using namespace std;
 
 //GLOBAL VARIABLES
-const float DRAW_SCALE = 200;       //SCALE FOR DRAWING THE POINTS
+//const float DRAW_SCALE = 200;       //SCALE FOR DRAWING THE POINTS
 int FRAME_COUNT;
 int TOTAL_FRAMES;
 
@@ -49,14 +49,14 @@ class CCLApp : public App {
     int numJoints;
     
     // create an array of initial per-instance positions laid out in a 2D grid
-    std::vector<glm::vec3> jointPositions;
+    //std::vector<glm::vec3> jointPositions;
     
-    //CREATE A CONTAINER TO STORE THE INITIAL POSITIONS FOR INITIALISING THE JOINTS
-    std::vector<glm::vec3> positions;
+    //CREATE A CONTAINER TO STORE THE POSITION OF EACH JOINT FOR A SINGLE FRAME
+    std::vector<glm::vec3> framePositions;
     
     
     typedef vector<glm::vec3>::size_type bodySize;
-    bodySize sizeOfBody = jointPositions.size();
+ //   bodySize sizeOfBody = jointPositions.size();
     
     Skeleton skeleton;
     
@@ -76,7 +76,7 @@ void CCLApp::setup()
     //SETUP THE CAMERA
     mCamera.lookAt( vec3( 100, 100, 10 ), vec3( 0 ) );
     
-    mCamera.setFarClip(5000);
+    mCamera.setFarClip(10000);
     
     //mCamera.setEyePoint(vec3(0,200,650));
     mCamUi = CameraUi( &mCamera, getWindow() );
@@ -110,17 +110,17 @@ void CCLApp::setup()
         float instanceZ = jointList[i].jointPositions[0].z;
        // float instanceZ = 0;
 
-        positions.push_back( vec3( instanceX, instanceY, instanceZ));
+        framePositions.push_back( vec3( instanceX, instanceY, instanceZ));
     }
     
-    skeleton = Skeleton(positions);
+    skeleton = Skeleton(framePositions);
     
     //std::cout << "positions: " << positions[0] << std::endl;
     
     
     
     // create the VBO which will contain per-instance (rather than per-vertex) data
-    mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, positions.size() * sizeof(vec3), positions.data(), GL_DYNAMIC_DRAW );
+    mInstanceDataVbo = gl::Vbo::create( GL_ARRAY_BUFFER, framePositions.size() * sizeof(vec3), framePositions.data(), GL_DYNAMIC_DRAW );
     
     // we need a geom::BufferLayout to describe this data as mapping to the CUSTOM_0 semantic, and the 1 (rather than 0) as the last param indicates per-instance (rather than per-vertex)
     geom::BufferLayout instanceDataLayout;
@@ -166,7 +166,6 @@ void CCLApp::update()
     //UNMAP
     
     glm::vec3 *newPositions = (glm::vec3*)mInstanceDataVbo->mapReplace();
-    glm::vec3 *skeletonPositions = (glm::vec3*)skeleton.
     
     for( int i = 0; i < jointList.size(); ++i ) {
 
@@ -177,17 +176,22 @@ void CCLApp::update()
             // just some nonsense math to move the teapots in a wave
             vec3 newPos(vec3(instanceX,instanceY, instanceZ));
         
+        
+        if (i == 44){
+            std::cout << newPos << endl;
+        }
+        framePositions[i] = newPos;
         *newPositions++ = newPos;
-        positions[i] = newPos;
+        
     }
     
-    
+    skeleton.update(framePositions);
     
 
     mInstanceDataVbo->unmap();
    // std::cout << "position: " << positions[0] << std::endl;
 
-    skeleton.update(positions);
+    
     
     //MANUALLY INCREMENT THE FRAME, IF THE FRAME_COUNT EXCEEDS TOTAL FRAMES, RESET THE COUNTER
     if (FRAME_COUNT < TOTAL_FRAMES)
@@ -205,9 +209,11 @@ void CCLApp::update()
 void CCLApp::draw()
 {
     
-    gl::clear(Color(0.f,0.f,0.f) );
+    gl::clear(Color(0.1f,0.1f,0.1f) );
     
     gl::setMatrices( mCamera );
+    
+   
     
     renderScene();
     
@@ -216,9 +222,7 @@ void CCLApp::draw()
     //mSphereBatch->drawInstanced( sizeOfBody );
     
     mSphereBatch->drawInstanced( jointList.size() );
-    
-    gl::color( 1, 0, 0 );
-    skeleton.render();
+     skeleton.render();
 
 
 }
@@ -242,7 +246,7 @@ void CCLApp::setupEnviron( int xSize, int zSize, int spacing )
     
     const int xMax = xSize + spacing;
     const int zMax = zSize + spacing;
-    const ColorA defaultColor( 0.9f, 0.9f, 0.9f,0.3f);
+    const ColorA defaultColor( 0.9f, 0.9f, 0.9f,0.1f);
     const ColorA black( 0, 0, 0, 1 );
     
     mGridMesh = gl::VertBatch::create( GL_LINES );
@@ -268,10 +272,10 @@ void CCLApp::setupEnviron( int xSize, int zSize, int spacing )
 void CCLApp::renderScene()
 {
     
-    gl::pushMatrices();
+   // gl::pushMatrices();
     mGridMesh->draw();
-    gl::popMatrices();
-
+ 
+  //  gl::popMatrices();
 }
 
 //-------------------- IMPORT DATA -------------------------
