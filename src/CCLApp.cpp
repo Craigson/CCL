@@ -283,8 +283,8 @@ void CCLApp::renderScene()
 void CCLApp::initData()
 {
     //CREATE AND INITIALISE A CCL_MOCAPDATA OBJECT, PASSING IN THE GLOBAL "jointList" AS A REFERENCE
-//  jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT.json"));
-  jointList = ccl::loadMotionCaptureFromSite(Url(ccl::URL_STREAM_JSON), 1);
+  jointList = ccl::loadMotionCaptureFromJson(getAssetPath("CCL_JOINT.json"));
+//  jointList = ccl::loadMotionCaptureFromSite(Url(ccl::URL_STREAM_JSON), 1);
  //    CCL_MocapData(1, jointList); //UNCOMMENT THIS LINE TO CAPTURE NEW JSON DATA
      std::cout << jointList.size()<< endl;
      std::cout << endl;
